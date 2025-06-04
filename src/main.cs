@@ -4,7 +4,6 @@ using System.Net.Sockets;
 
 
 
-
 while (true)
 {
     Console.Write("$ ");
@@ -12,6 +11,12 @@ while (true)
     if( command == "exit 0")
     {
         break;
+    }
+    if ( command.Contains("echo "))
+    {
+        var echo = command.Substring(5);
+        Console.WriteLine(echo);
+        continue;
     }
     Console.WriteLine($"{command}: command not found");
     
