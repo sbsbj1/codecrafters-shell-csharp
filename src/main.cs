@@ -4,6 +4,7 @@ using System.Net.Sockets;
 
 
 String[] builtin = { "exit", "echo", "type" };
+
 while (true)
 {
     Console.Write("$ ");
@@ -18,17 +19,35 @@ while (true)
         Console.WriteLine(echo);
         continue;
     }
-    if(command.ToLower().Contains("type "))
+    else if(command.ToLower().Contains("type "))
     {
+
+        var isFound = false;
         var subString = command.Substring(5);
         if (builtin.Any(subString.Contains))
         {
             Console.WriteLine($"{subString} is a shell builtin");
             continue;
         }
-        Console.WriteLine($"{subString}: not found");
-        continue;
+        foreach (string test in (Environment.GetEnvironmentVariable("PATH")).Split(':'))
+        {   
+            string path = test.Trim();
+            if ( File.Exists(path = Path.Combine(path, subString)))
+            {
+                Console.WriteLine($"{subString} is {path}");
+                isFound = true;
+                break;               
+            }            
+        }
+        if(isFound == false )
+        {
+            Console.WriteLine($"{subString}: not found");
+        }
     }
-    Console.WriteLine($"{command}: command not found");
-    
+    else
+    {
+        Console.WriteLine($"{command}: command not found");
+    }
+
 }
+
