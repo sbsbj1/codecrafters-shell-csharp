@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 
@@ -29,9 +30,9 @@ while (true)
             Console.WriteLine($"{subString} is a shell builtin");
             continue;
         }
-        foreach (string test in (Environment.GetEnvironmentVariable("PATH")).Split(':'))
+        foreach (string env in (Environment.GetEnvironmentVariable("PATH")).Split(':'))
         {   
-            string path = test.Trim();
+            string path = env.Trim();
             if ( File.Exists(path = Path.Combine(path, subString)))
             {
                 Console.WriteLine($"{subString} is {path}");
@@ -43,6 +44,30 @@ while (true)
         {
             Console.WriteLine($"{subString}: not found");
         }
+    }
+    else if (command.ToLower().Contains("exe"))
+    {
+        string[] commandSplit = command.Split(' ');
+        var executable = commandSplit[0];
+
+        var arguments = string.Join(" ", commandSplit.Skip(1));
+        //Console.WriteLine($"{executable} EJECUTABLE");
+        //Console.WriteLine($"{arguments} ARGUMENTOS");
+
+        foreach (string env in (Environment.GetEnvironmentVariable("PATH")).Split(':'))
+        {
+            string path = env.Trim();
+            if(File.Exists(path = Path.Combine(path, executable)))
+            {
+                Process p = new Process();
+                p.StartInfo.FileName = executable;
+                p.StartInfo.Arguments = arguments;
+                p.Start();
+                p.WaitForExit();
+            }
+        }
+
+        
     }
     else
     {
