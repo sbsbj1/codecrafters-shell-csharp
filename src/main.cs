@@ -4,7 +4,7 @@ using System.Net.Sockets;
 
 
 
-String[] builtin = { "exit", "echo", "type" };
+String[] builtin = { "exit", "echo", "type", "pwd" };
 
 while (true)
 {
@@ -68,6 +68,11 @@ while (true)
         }
 
         
+    }
+    else if(command.ToLower().StartsWith("pwd"))
+    {
+        var path = Directory.GetCurrentDirectory();
+        Console.WriteLine(path);
     }
     else
     {
