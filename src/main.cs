@@ -74,6 +74,19 @@ while (true)
         var path = Directory.GetCurrentDirectory();
         Console.WriteLine(path);
     }
+    else if(command.ToLower().Contains("cd "))
+    {
+        var route = command.Substring(3);
+        if(Directory.Exists(route))
+        {
+            Directory.SetCurrentDirectory(route);
+        }
+        else
+        {
+            Console.WriteLine($"cd: {route}: No such file or directory");
+        }
+        
+    }
     else
     {
         Console.WriteLine($"{command}: command not found");
