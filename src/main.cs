@@ -81,6 +81,10 @@ while (true)
         {
             Directory.SetCurrentDirectory(route);
         }
+        else if(route == "~")
+        {
+            Directory.SetCurrentDirectory(System.Environment.GetEnvironmentVariable("HOME"));
+        }
         else
         {
             Console.WriteLine($"cd: {route}: No such file or directory");
